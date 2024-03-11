@@ -14,9 +14,7 @@ interface PropertyRichTextIF {
 }
 
 interface PropertyDateIF {
-  date: {
-    start: string;
-  };
+  created_time: string;
 }
 
 interface PropertyContentIF {
@@ -31,7 +29,7 @@ const getPropertyText = (property: PropertyContentIF) => {
   const properties = property.properties;
   const title = properties.title.title[0].plain_text;
   const content = properties.content.rich_text[0].plain_text;
-  const date = properties.date.date.start;
+  const date = properties.date.created_time;
   return { title, content, date };
 };
 
@@ -47,4 +45,17 @@ const requestMemoList = async () => {
   return getMemo;
 };
 
-module.exports = { getMemoList: requestMemoList };
+const requestCreateMemo = async (argu: { title: string; content: string }) => {
+  await notion.pages.create({
+    parent: { type: "database_id", database_id: database_id },
+    properties: {
+      title: { title: [{ text: { content: argu.title } }] },
+      content: { rich_text: [{ text: { content: argu.content } }] },
+    },
+  });
+};
+
+module.exports = {
+  getMemoList: requestMemoList,
+  createMemo: requestCreateMemo,
+};
