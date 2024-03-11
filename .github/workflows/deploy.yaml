@@ -28,9 +28,9 @@ jobs:
                 - name: NODE_ENV
                   value: production
                 - name: NOTION_TOKEN
-                  value: secret_dFQXuHrWwxLNdD6hzdNPhJm3syysmqoDH53aBZEc7Yb
+                  value: ${{ secrets.NOTION_TOKEN }}
                 - name: NOTION_DATABASE_ID
-                  value: 286a6f67dcbb48c79d5a02b6b812da4a
+                  value: ${{ secrets.NOTION_DATABASE_ID }}
               ports: "8080"
               install: npm install
               build: npm run build
