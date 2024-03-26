@@ -1,29 +1,18 @@
 import { Request, Response } from "express";
 import { Socket } from "socket.io";
 
-const { getMemoList, createMemo } = require("./memo/client");
-const express = require("express");
-const cors = require("cors");
-
-const port = process.env.PORT || 8080;
-const app = express();
-app.use(cors());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-const server = require("http").createServer(app);
-const io = require("socket.io")(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
-});
+import { app, port } from "./config";
+import { io, server } from "./socket";
+import { getMemo, addMemo } from "./memo";
 
 app.get("/memo", async (req: Request, res: Response) => {
-  const data = await getMemoList();
+  const data = await getMemo();
   res.json(data);
 });
 
 app.post("/memo", async (req: Request, res: Response) => {
   const { title, content } = req.body;
-  await createMemo({ title, content });
+  await addMemo({ title, content });
   res.send({ status: 200 });
 });
 
