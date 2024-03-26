@@ -5,7 +5,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 const local = "*";
-const prod = "https://www.jiwoo.so/";
+const prod = "https://www.jiwoo.so";
 const isProduction = process.env.NODE_ENV == "production";
 const origin = isProduction ? prod : local;
 
