@@ -3,6 +3,3 @@
 
 .env
 .env.local
-
-# audio, image file
-/src/storage
