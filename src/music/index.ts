@@ -25,7 +25,7 @@ const getMusicList = () => {
 
   const getAudioInfo = (file: string) => {
     const [filename, type] = file.split(".");
-    const url = isProd ? "https://www.jiwoo.so" : "http://localhost:8080";
+    const url = isProd ? "https://api.jiwoo.so" : "http://localhost:8080";
 
     return {
       title: filename,
