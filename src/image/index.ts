@@ -1,7 +1,7 @@
 import { createReadStream, statSync } from "fs";
 import path from "path";
 
-const isProd = process.env.ENV === "production";
+const isProd = process.env.NODE_ENV == "production";
 const imageBasePath = `${isProd ? "." : ".."}/storage/image`;
 
 const getImage = (filename: string) => {
