@@ -1,7 +1,8 @@
 import { readdirSync, statSync, createReadStream } from "fs";
 import path from "path";
 
-const audioBasePath = "../storage/audio";
+const isProd = process.env.NODE_ENV == "production";
+const audioBasePath = `${isProd ? "." : ".."}/storage/audio`;
 
 const syncFile = (filename: string) => {
   const filePath = path.resolve(__dirname, `${audioBasePath}/${filename}`);
@@ -24,7 +25,6 @@ const getMusicList = () => {
 
   const getAudioInfo = (file: string) => {
     const [filename, type] = file.split(".");
-    const isProd = process.env.NODE_ENV == "production";
     const url = isProd ? "https://www.jiwoo.so" : "http://localhost:8080";
 
     return {
