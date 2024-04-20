@@ -62,7 +62,7 @@ app.get("/image/:filename", async (req: Request, res: Response) => {
 
   try {
     const { stream, size } = getImage(filename);
-    res.writeHead(202, imageHeader(size));
+    res.writeHead(200, imageHeader(size));
     stream.pipe(res);
   } catch (e) {
     res.header(jsonHeader);
