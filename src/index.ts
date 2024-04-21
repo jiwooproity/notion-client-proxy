@@ -5,16 +5,10 @@ import { app, port } from "./config";
 import { io, server } from "./socket";
 import { getMemo, addMemo } from "./memo";
 import { getMusic, getMusicList } from "./music";
-import { getImage } from "./image";
 
 const audioHeader = (size: number) => ({
   "Accept-Ranges": "bytes",
   "Content-Type": "audio/mpeg",
-  "Content-Length": size,
-});
-
-const imageHeader = (size: number) => ({
-  "Content-Type": "image/png",
   "Content-Length": size,
 });
 
@@ -55,19 +49,6 @@ app.get("/audio", async (req: Request, res: Response) => {
 
   if (filename) getAudioSearch();
   else getAudioList();
-});
-
-app.get("/image/:filename", async (req: Request, res: Response) => {
-  const { filename } = req.params;
-
-  try {
-    const { stream, size } = getImage(filename);
-    res.writeHead(200, imageHeader(size));
-    stream.pipe(res);
-  } catch (e) {
-    res.header(jsonHeader);
-    res.send({ status: 404, msg: "Not found" });
-  }
 });
 
 io.on("connection", (socket: Socket) => {

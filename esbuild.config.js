@@ -12,6 +12,10 @@ build({
       resolveFrom: "cwd",
       assets: [
         {
+          from: ["./public/**/*"],
+          to: ["./dist/public"],
+        },
+        {
           from: ["./src/storage/**/*"],
           to: ["./dist/storage"],
         },
