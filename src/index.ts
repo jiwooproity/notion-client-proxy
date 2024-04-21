@@ -30,7 +30,7 @@ app.post("/memo", async (req: Request, res: Response) => {
 app.get("/audio", async (req: Request, res: Response) => {
   const { filename } = req.query as { filename: string };
 
-  const getAudioSearch = () => {
+  const getAudioSearch = (filename: string) => {
     try {
       const { stream, size } = getMusic(filename);
       res.writeHead(200, audioHeader(size));
@@ -47,7 +47,7 @@ app.get("/audio", async (req: Request, res: Response) => {
     res.send(fileList);
   };
 
-  if (filename) getAudioSearch();
+  if (filename) getAudioSearch(filename);
   else getAudioList();
 });
 
