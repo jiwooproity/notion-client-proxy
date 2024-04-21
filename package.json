@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/client.js",
-    "build": "node ./esbuild.config.js",
+    "build": "node ./esbuild.config.js --define:process.env.NODE_ENV='production'",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts"
   },
   "author": "",

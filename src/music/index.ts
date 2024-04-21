@@ -30,7 +30,7 @@ const getMusicList = () => {
     return {
       title: filename,
       filename,
-      cover: `${url}/image/${filename}`.replace(/(\s)/g, "%20"),
+      cover: `${url}/image/${filename}.png`.replace(/(\s)/g, "%20"),
       type,
     };
   };
