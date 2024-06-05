@@ -12,18 +12,14 @@ const audioHeader = (size: number) => ({
   "Content-Length": size,
 });
 
-const memoHeader = {
-  "Cache-Control": "public, max-age=60",
-  "Content-Type": "application/json",
-};
-
 const jsonHeader = {
+  "Cache-Control": "public, max-age=60",
   "Content-Type": "application/json",
 };
 
 app.get("/memo", async (req: Request, res: Response) => {
   const data = await getMemo();
-  res.header(memoHeader);
+  res.header(jsonHeader);
   res.json(data);
 });
 
