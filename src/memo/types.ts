@@ -19,6 +19,7 @@ interface PropertyContentIF {
     content: PropertyRichTextIF;
     date: PropertyDateIF;
     title: PropertyTitleIF;
+    reaction: PropertyRichTextIF;
   };
 }
 
