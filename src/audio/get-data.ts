@@ -1,5 +1,8 @@
+import { config } from "dotenv";
 import { readdirSync, statSync, createReadStream } from "fs";
 import path from "path";
+
+config();
 
 const isProd = process.env.NODE_ENV == "production";
 const audioBasePath = `${isProd ? "." : ".."}/storage/audio`;
