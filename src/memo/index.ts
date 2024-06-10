@@ -1,37 +1,19 @@
-import dotenv from "dotenv";
-import { Client } from "@notionhq/client";
-import { type PropertyContentIF } from "../types/memo";
+import { type Request, type Response, Router } from "express";
+import { addMemo, getMemo } from "./get-data";
+import { jsonHeader } from "../utils/header";
 
-dotenv.config();
+const router = Router();
 
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
+router.get("/", async (req: Request, res: Response) => {
+  const data = await getMemo();
+  res.header(jsonHeader);
+  res.json(data);
 });
 
-const database_id = process.env.NOTION_DATABASE_ID as string;
+router.post("/", async (req: Request, res: Response) => {
+  const { title, content } = req.body;
+  await addMemo({ title, content });
+  res.send({ status: 200 });
+});
 
-const getPropertyText = (property: PropertyContentIF) => {
-  const properties = property.properties;
-  const title = properties.title.title[0].plain_text;
-  const content = properties.content.rich_text[0].plain_text;
-  const date = properties.date.created_time;
-  return { title, content, date };
-};
-
-const getMemo = async () => {
-  const { results } = (await notion.databases.query({ database_id })) as any;
-  const getMemo = results.map(getPropertyText);
-  return getMemo;
-};
-
-const addMemo = async (argu: { title: string; content: string }) => {
-  await notion.pages.create({
-    parent: { type: "database_id", database_id: database_id },
-    properties: {
-      title: { title: [{ text: { content: argu.title } }] },
-      content: { rich_text: [{ text: { content: argu.content } }] },
-    },
-  });
-};
-
-export { getMemo, addMemo };
+export default router;
