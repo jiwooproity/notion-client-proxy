@@ -1,10 +1,10 @@
-import { config } from "dotenv";
+import dotenv from "dotenv";
 import { Client } from "@notionhq/client";
+import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-import { PropertyContentIF } from "./types";
 import { safeUndefined } from "../utils";
 
-config(); // env 환경변수
+dotenv.config(); // env 환경변수
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -12,7 +12,7 @@ const notion = new Client({
 
 const database_id = process.env.NOTION_DATABASE_ID as string;
 
-const getPropertyText = (property: PropertyContentIF) => {
+const getPropertyText = (property: DatabaseObjectResponse) => {
   const defaultValue = "";
   const properties = property.properties;
 
@@ -44,7 +44,8 @@ const getPropertyText = (property: PropertyContentIF) => {
 };
 
 const getMemo = async () => {
-  const { results } = (await notion.databases.query({ database_id })) as any;
+  const data = await notion.databases.query({ database_id });
+  const results = data.results as DatabaseObjectResponse[];
   const getMemo = results.map(getPropertyText);
   return getMemo;
 };

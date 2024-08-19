@@ -1,4 +1,9 @@
-import { type ContactList } from "./types";
+interface ContactList {
+  blog: string;
+  notion: string;
+  email: string;
+  websites: string[];
+}
 
 const CONTACT_LIST = {
   blog: "https://jiwooproity.tistory.com/",
