@@ -27,6 +27,8 @@ jobs:
               env:
                 - name: NODE_ENV
                   value: production
+                - name: AUDIO_BASE_PATH
+                  value: ${{ secrets.AUDIO_BASE_PATH }}
                 - name: NOTION_TOKEN
                   value: ${{ secrets.NOTION_TOKEN }}
                 - name: NOTION_DATABASE_ID
