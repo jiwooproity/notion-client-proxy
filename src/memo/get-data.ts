@@ -2,7 +2,7 @@ import { config } from "dotenv";
 import { Client } from "@notionhq/client";
 
 import { PropertyContentIF } from "./types";
-import safeUndefined from "../utils/safe-undefined";
+import { safeUndefined } from "../utils";
 
 config(); // env 환경변수
 
