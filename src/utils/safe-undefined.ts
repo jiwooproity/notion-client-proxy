@@ -1,4 +1,4 @@
-const safeUndefined = <T, R>(origin: T, target: string, tobe: string): R => {
+export function safeUndefined<T, R>(origin: T, target: string, tobe: string): R {
   const accessPath = target.split(".");
   let current = origin as any;
 
@@ -8,6 +8,4 @@ const safeUndefined = <T, R>(origin: T, target: string, tobe: string): R => {
   }
 
   return current as R;
-};
-
-export default safeUndefined;
+}

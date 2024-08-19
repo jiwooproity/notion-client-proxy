@@ -1,44 +1,17 @@
-import { config } from "dotenv";
-import { readdirSync, statSync, createReadStream } from "fs";
-import path from "path";
+import { createStream, isProduction, syncDirectory } from "../utils";
 
-config();
+function getAudioInfo(fileName: string) {
+  const [name, type] = fileName.split(".");
+  const url = isProduction().getMode(["https://api.jiwoo.so", "http://localhost:8080"]);
+  const cover = `${url}/image/${name}.png`.replace(/(\s)/g, "%20");
+  return { title: name, fileName, cover, type };
+}
 
-const isProd = process.env.NODE_ENV == "production";
-const audioBasePath = `${isProd ? "." : ".."}/storage/audio`;
+export function getMusic(fileName: string) {
+  return createStream(`${fileName}.mp3`);
+}
 
-const syncFile = (filename: string) => {
-  const filePath = path.resolve(__dirname, `${audioBasePath}/${filename}`);
-  const fileSync = statSync(filePath);
-  return { path: filePath, size: fileSync.size };
-};
-
-const syncDir = () => {
-  const filePath = path.resolve(__dirname, audioBasePath);
-  return readdirSync(filePath);
-};
-
-const getMusic = (filename: string) => {
-  const { path, size } = syncFile(`${filename}.mp3`);
-  return { stream: createReadStream(path), size };
-};
-
-const getMusicList = () => {
-  const audioDir = syncDir();
-
-  const getAudioInfo = (file: string) => {
-    const [filename, type] = file.split(".");
-    const url = isProd ? "https://api.jiwoo.so" : "http://localhost:8080";
-
-    return {
-      title: filename,
-      filename,
-      cover: `${url}/image/${filename}.png`.replace(/(\s)/g, "%20"),
-      type,
-    };
-  };
-
+export function getMusicList() {
+  const audioDir = syncDirectory();
   return audioDir.map(getAudioInfo);
-};
-
-export { getMusic, getMusicList };
+}
