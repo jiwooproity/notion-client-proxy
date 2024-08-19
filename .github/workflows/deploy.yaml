@@ -18,6 +18,8 @@ jobs:
         run: yarn install
       - name: Run to vitest testing
         run: yarn run test
+        env:
+          AUDIO_BASE_PATH: ${{ secrets.AUDIO_BASE_PATH }}
   deploy:
     runs-on: ubuntu-latest
     steps:
