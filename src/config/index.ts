@@ -1,21 +1,36 @@
+import path from "path";
+import cors from "cors";
 import express from "express";
 import compression from "compression";
-import cors from "cors";
-import path from "path";
 
-const port = process.env.PORT || 8080;
+import { isProduction } from "../utils";
+
+class ServerInit {
+  public origin: string;
+  public port: number;
+  public staticPath: string;
+  public credentials: boolean;
+
+  constructor() {
+    this.origin = "";
+    this.staticPath = "";
+    this.credentials = true;
+    this.port = (process.env.PORT || 8080) as number;
+  }
+
+  init() {
+    this.origin = isProduction().getMode(["*", "https://www.jiwoo.so"]);
+    this.staticPath = isProduction().getMode(["./public", "../../public"]);
+    return this;
+  }
+}
+
 const app = express();
+const { origin, port, credentials, staticPath } = new ServerInit().init();
 
-const local = "*";
-const prod = "https://www.jiwoo.so";
-const isProduction = process.env.NODE_ENV == "production";
-const origin = isProduction ? prod : local;
-
-const corsOptions = { origin, credentials: true };
-
-app.use(cors(corsOptions));
+app.use(cors({ origin, credentials }));
 app.use(compression());
-app.use(express.static(path.join(__dirname, isProduction ? "./public" : "../../public")));
+app.use(express.static(path.join(__dirname, staticPath)));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
