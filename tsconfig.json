@@ -9,5 +9,5 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "coverage", "dist", "public"]
+  "exclude": ["vitest.config.mts", "node_modules", "coverage", "dist", "public"]
 }
