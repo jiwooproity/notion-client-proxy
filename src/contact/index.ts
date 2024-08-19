@@ -1,5 +1,5 @@
 import { type Request, type Response, Router } from "express";
-import { getContact } from "./get-data";
+import { getContact } from "./get-contact";
 
 const router = Router();
 

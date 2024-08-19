@@ -1,6 +1,7 @@
 import { type Request, type Response, Router } from "express";
-import { addMemo, getMemo } from "./get-data";
-import { jsonHeader } from "../utils/header";
+
+import { addMemo, getMemo } from "./notion-query";
+import { jsonHeader } from "../utils";
 
 const router = Router();
 

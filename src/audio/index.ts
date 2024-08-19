@@ -1,6 +1,6 @@
 import { type Request, type Response, Router } from "express";
-import { getMusic, getMusicList } from "./get-data";
-import { audioHeader, jsonHeader } from "../utils/header";
+import { getMusic, getMusicList } from "./get-audio";
+import { audioHeader, jsonHeader } from "../utils/get-header";
 
 const router = Router();
 

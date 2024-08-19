@@ -6,12 +6,12 @@ import { isProduction } from "./get-enviroment";
 
 dotenv.config();
 
-enum PATH_ENUM {
+export enum PATH_ENUM {
   AUDIO,
   IMAGE,
 }
 
-const PATH: { [key in PATH_ENUM]: string } = {
+export const PATH: { [key in PATH_ENUM]: string } = {
   [PATH_ENUM.AUDIO]: process.env.AUDIO_BASE_PATH as string,
   [PATH_ENUM.IMAGE]: process.env.IMAGE_BASE_PATH as string,
 };

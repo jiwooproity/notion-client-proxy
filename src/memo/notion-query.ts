@@ -6,6 +6,13 @@ import { safeUndefined } from "../utils";
 
 dotenv.config(); // env 환경변수
 
+export interface ReturnNotionData {
+  title: string;
+  content: string;
+  date: string;
+  reaction: string;
+}
+
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
@@ -43,7 +50,7 @@ const getPropertyText = (property: DatabaseObjectResponse) => {
   return { title, content, date, reaction };
 };
 
-const getMemo = async () => {
+const getMemo = async (): Promise<ReturnNotionData[]> => {
   const data = await notion.databases.query({ database_id });
   const results = data.results as DatabaseObjectResponse[];
   const getMemo = results.map(getPropertyText);
