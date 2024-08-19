@@ -7,7 +7,7 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       include: ["src/**/*"],
-      exclude: ["src/**/index.ts", "src/socket/*", "src/folder/*", "src/config/*"],
+      exclude: ["src/**/index.ts", "src/config/*"],
     },
   },
 });

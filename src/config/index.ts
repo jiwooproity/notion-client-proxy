@@ -2,36 +2,22 @@ import path from "path";
 import cors from "cors";
 import express from "express";
 import compression from "compression";
-
 import { isProduction } from "../utils";
 
-class ServerInit {
-  public origin: string;
-  public port: number;
-  public staticPath: string;
-  public credentials: boolean;
-
-  constructor() {
-    this.origin = "";
-    this.staticPath = "";
-    this.credentials = true;
-    this.port = (process.env.PORT || 8080) as number;
-  }
-
-  init() {
-    this.origin = isProduction().getMode(["*", "https://www.jiwoo.so"]);
-    this.staticPath = isProduction().getMode(["./public", "../../public"]);
-    return this;
-  }
-}
-
+const port = process.env.PORT || 8080;
 const app = express();
-const { origin, port, credentials, staticPath } = new ServerInit().init();
+const origin = isProduction().getMode(["*", "https://www.jiwoo.so"]);
+const staticPath = isProduction().getMode(["./public", "../../public"]);
 
-app.use(cors({ origin, credentials }));
+app.use(cors({ origin: origin, credentials: true }));
 app.use(compression());
 app.use(express.static(path.join(__dirname, staticPath)));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-export { app, port, origin };
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+  cors: { origin, methods: ["GET", "POST"] },
+});
+
+export { app, port, origin, server, io };
