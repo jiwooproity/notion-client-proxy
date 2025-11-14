@@ -51,7 +51,10 @@ const getPropertyText = (property: DatabaseObjectResponse) => {
 };
 
 const getMemo = async (): Promise<ReturnNotionData[]> => {
-  const data = await notion.databases.query({ database_id });
+  const data = await notion.databases.query({
+    database_id,
+    sorts: [{ property: "date", direction: "descending" }],
+  });
   const results = data.results as DatabaseObjectResponse[];
   const getMemo = results.map(getPropertyText);
   return getMemo;
